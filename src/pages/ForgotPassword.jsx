@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 const ForgotPassword = () => {
   return (
     <div className="px-6 flex items-center justify-center h-[calc(100vh-100px)]">
@@ -14,9 +16,11 @@ const ForgotPassword = () => {
               className="bg-gray-100 px-2 py-1 w-full rounded outline-none lg:w-4/5"
             />
           </div>
-          <button className="px-5 py-1 bg-blue-400 font-bold text-white mt-3 cursor-pointer active:scale-90 transition-all">
-            Send OTP
-          </button>
+          <Link to={"/update-password"}>
+            <button className="px-5 py-1 w-full bg-blue-400 font-bold text-white mt-3 cursor-pointer active:scale-90 transition-all">
+              Send OTP
+            </button>
+          </Link>
         </form>
       </div>
     </div>

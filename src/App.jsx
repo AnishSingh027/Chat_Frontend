@@ -6,6 +6,7 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import { PublicProtected, PrivateProtected } from "./components/Protected";
 import ForgotPassword from "./pages/ForgotPassword";
+import UpdatePassword from "./pages/UpdatePassword";
 
 const AppLayout = () => {
   return (
@@ -60,6 +61,14 @@ const router = createBrowserRouter([
         element: (
           <PrivateProtected>
             <ForgotPassword />
+          </PrivateProtected>
+        ),
+      },
+      {
+        path: "/update-password",
+        element: (
+          <PrivateProtected>
+            <UpdatePassword />
           </PrivateProtected>
         ),
       },

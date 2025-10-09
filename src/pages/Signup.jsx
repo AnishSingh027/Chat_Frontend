@@ -39,40 +39,40 @@ const Signup = () => {
         </h1>
         <form className="py-2 px-4 flex flex-col gap-3" onSubmit={handleSubmit}>
           <div className="items-start justify-between gap-2 flex flex-col md:flex-row md:items-center md:gap-3">
-            <label className="w-1/5">Firstname: </label>
+            <label className="w-full lg:w-1/4">Firstname: </label>
             <input
               type="text"
               name="firstName"
               value={formData.firstName}
               onChange={(e) => handleChange(e)}
               placeholder="Enter your firstname"
-              className="bg-gray-100 px-2 py-1 w-full rounded outline-none lg:w-4/5"
+              className="bg-gray-100 px-2 py-1 w-full rounded outline-none lg:w-3/4"
             />
           </div>
           <div className="items-start justify-between gap-2 flex flex-col md:flex-row md:items-center md:gap-3">
-            <label className="w-1/5">Lastname: </label>
+            <label className="w-full lg:w-1/4">Lastname: </label>
             <input
               type="text"
               name="lastName"
               value={formData.lastName}
               onChange={(e) => handleChange(e)}
               placeholder="Enter your lastname"
-              className="bg-gray-100 px-2 py-1 w-full rounded outline-none lg:w-4/5"
+              className="bg-gray-100 px-2 py-1 w-full rounded outline-none lg:w-3/4"
             />
           </div>
           <div className="items-start justify-between gap-2 flex flex-col md:flex-row md:items-center md:gap-3">
-            <label className="w-1/5">Age: </label>
+            <label className="w-full lg:w-1/4">Age: </label>
             <input
               type="number"
               name="age"
               onChange={(e) => handleChange(e)}
               value={formData.age}
               placeholder="Enter your age"
-              className="bg-gray-100 px-2 py-1 w-full rounded outline-none lg:w-4/5"
+              className="bg-gray-100 px-2 py-1 w-full rounded outline-none lg:w-3/4"
             />
           </div>
           <div className="items-start gap-2 flex flex-col md:flex-row md:items-center md:gap-3">
-            <label className="w-1/5">Gender: </label>
+            <label className="w-full lg:w-1/4">Gender: </label>
             <select
               value={formData.gender}
               onChange={(e) => handleChange(e)}
@@ -84,25 +84,25 @@ const Signup = () => {
             </select>
           </div>
           <div className="items-start justify-between gap-2 flex flex-col md:flex-row md:items-center md:gap-3">
-            <label className="w-1/5">Username: </label>
+            <label className="w-full lg:w-1/4">Username: </label>
             <input
               type="email"
               name="email"
               value={formData.email}
               onChange={(e) => handleChange(e)}
               placeholder="Enter your email"
-              className="bg-gray-100 px-2 py-1 w-full rounded outline-none lg:w-4/5"
+              className="bg-gray-100 px-2 py-1 w-full rounded outline-none lg:w-3/4"
             />
           </div>
           <div className="items-start justify-between gap-2 flex flex-col md:flex-row md:items-center md:gap-3 relative">
-            <label className="w-1/5">Password: </label>
+            <label className="w-full lg:w-1/4">Password: </label>
             <input
               type={`${passwordIsVisible ? "text" : "password"}`}
               placeholder="Enter your password"
               name="password"
               value={formData.password}
               onChange={(e) => handleChange(e)}
-              className="bg-gray-100 pl-2 pr-8 py-1 w-full rounded outline-none lg:w-4/5"
+              className="bg-gray-100 pl-2 pr-8 py-1 w-full rounded outline-none lg:w-3/4"
             />
             {passwordIsVisible ? (
               <FaEyeSlash
