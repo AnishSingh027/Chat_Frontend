@@ -1,12 +1,17 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Navigate, Outlet } from "react-router-dom";
-
-export const PublicProtected = ({ children }) => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  return isLoggedIn ? children : <Navigate to={"/login"} />;
-};
+import AuthContext from "../contexts/AuthContext";
 
 export const PrivateProtected = ({ children }) => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  return isLoggedIn ? <Navigate to={"/"} /> : children;
+  const { isUserLoggedIn } = useContext(AuthContext);
+  console.log("Status", isUserLoggedIn);
+
+  // console.log("LoggedIn status", isUserLoggedIn);
+  return isUserLoggedIn ? children : <Navigate to={"/login"} />;
+};
+
+export const PublicProtected = ({ children }) => {
+  const { isUserLoggedIn } = useContext(AuthContext);
+  console.log("LoggedIn status", isUserLoggedIn);
+  return isUserLoggedIn ? <Navigate to={"/"} /> : children;
 };

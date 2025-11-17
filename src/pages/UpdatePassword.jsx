@@ -1,7 +1,17 @@
 import { useEffect, useRef, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import api from "../config/axios";
 
 const UpdatePassword = () => {
   const OTPField = useRef([]);
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const [formData, setFormData] = useState({
+    email: location?.state?.email || "",
+    otp: "",
+    password: "",
+  });
 
   const handleInputField = (e, index) => {
     const value = e.target.value;
@@ -21,11 +31,22 @@ const UpdatePassword = () => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const OTP = OTPField.current.map((item) => item.value).join("");
-    console.log(OTP);
+    try {
+      const otp = OTPField.current.map((item) => item.value).join("");
+      setFormData((prev) => ({ ...prev, otp }));
+
+      const updatedData = { ...formData, otp };
+
+      const res = await api.post("/user/reset-password", updatedData);
+      alert(res?.data?.message);
+
+      navigate("/login");
+    } catch (error) {
+      alert(error.response?.data?.error);
+    }
   };
 
   useEffect(() => {
@@ -56,21 +77,30 @@ const UpdatePassword = () => {
             ))}
           </div>
           <div className="items-start justify-between gap-2 flex flex-col mt-3 md:flex-row md:items-center md:gap-3">
-            <label className="w-full lg:w-1/4">Password: </label>
+            <label className="w-full md:w-1/4">Password: </label>
             <input
-              type="text"
+              type="password"
               name="password"
+              autoComplete="new-password"
+              value={formData.password}
+              onChange={(e) =>
+                setFormData((prev) => ({
+                  ...prev,
+                  [e.target.name]: e.target.value,
+                }))
+              }
               placeholder="Enter new password"
-              className="bg-gray-100 px-2 py-1 w-full rounded outline-none lg:w-3/4"
+              className="bg-gray-100 px-2 py-1 w-full rounded outline-none md:w-3/4"
             />
           </div>
           <div className="items-start justify-between gap-2 flex flex-col md:flex-row md:items-center md:gap-3">
-            <label className="w-full lg:w-1/4">Confirm Password: </label>
+            <label className="w-full md:w-1/4">Confirm: </label>
             <input
               type="text"
               name="confirmPassword"
-              placeholder="confirm password"
-              className="bg-gray-100 px-2 py-1 w-full rounded outline-none lg:w-3/4"
+              autoComplete="off"
+              placeholder="Confirm password"
+              className="bg-gray-100 px-2 py-1 w-full rounded outline-none md:w-3/4"
             />
           </div>
           <button

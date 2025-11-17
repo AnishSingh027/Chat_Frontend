@@ -1,6 +1,23 @@
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import api from "../config/axios";
 
 const ForgotPassword = () => {
+  const [email, setEmail] = useState("manish@gmail.com");
+  const navigate = useNavigate();
+
+  const handleNavigate = async (e) => {
+    e.preventDefault();
+
+    try {
+      const res = await api.post("/user/reset-password-otp", { email });
+      alert(res?.data?.message);
+      navigate("/update-password", { state: { email } });
+    } catch (error) {
+      alert(error?.response?.data);
+    }
+  };
+
   return (
     <div className="px-6 flex items-center justify-center h-[calc(100vh-100px)]">
       <div className="w-72 rounded shadow-xl md:w-96">
@@ -13,14 +30,18 @@ const ForgotPassword = () => {
             <input
               type="email"
               placeholder="Enter your email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               className="bg-gray-100 px-2 py-1 w-full rounded outline-none lg:w-4/5"
             />
           </div>
-          <Link to={"/update-password"}>
-            <button className="px-5 py-1 w-full bg-blue-400 font-bold text-white mt-3 cursor-pointer active:scale-90 transition-all">
-              Send OTP
-            </button>
-          </Link>
+          <button
+            type="submit"
+            onClick={handleNavigate}
+            className="px-5 py-1 w-full bg-blue-400 font-bold text-white mt-3 cursor-pointer active:scale-90 transition-all"
+          >
+            Send OTP
+          </button>
         </form>
       </div>
     </div>
