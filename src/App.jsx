@@ -8,7 +8,6 @@ import { PublicProtected, PrivateProtected } from "./components/Protected";
 import ForgotPassword from "./pages/ForgotPassword";
 import UpdatePassword from "./pages/UpdatePassword";
 import { UserProvider } from "./contexts/UserContext";
-import { AuthProvider } from "./contexts/AuthContext";
 
 const AppLayout = () => {
   return (
@@ -26,54 +25,49 @@ const router = createBrowserRouter([
     element: <AppLayout />,
     errorElement: <Error />,
     children: [
+      // Private pages
       {
         index: true,
         element: (
-          <AuthProvider>
-            <PrivateProtected>
+          <PrivateProtected>
+            <UserProvider>
               <Home />
-            </PrivateProtected>
-          </AuthProvider>
+            </UserProvider>
+          </PrivateProtected>
         ),
       },
-    ],
-  },
 
-  // public routes
-  {
-    path: "/",
-    element: <AppLayout />,
-    children: [
+      // Public pages
       {
         path: "/login",
         element: (
-          <AuthProvider>
+          <PublicProtected>
             <Login />
-          </AuthProvider>
+          </PublicProtected>
         ),
       },
       {
         path: "/signup",
         element: (
-          // <PublicProtected>
-          <Signup />
-          // </PublicProtected>
+          <PublicProtected>
+            <Signup />
+          </PublicProtected>
         ),
       },
       {
         path: "/forgot-password",
         element: (
-          // <PublicProtected>
-          <ForgotPassword />
-          // </PublicProtected>
+          <PublicProtected>
+            <ForgotPassword />
+          </PublicProtected>
         ),
       },
       {
         path: "/update-password",
         element: (
-          // <PublicProtected>
-          <UpdatePassword />
-          // </PublicProtected>
+          <PublicProtected>
+            <UpdatePassword />
+          </PublicProtected>
         ),
       },
     ],

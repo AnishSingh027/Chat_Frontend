@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
+import AuthContext from "../contexts/AuthContext";
 
 const Navbar = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const { isUserLoggedIn } = useContext(AuthContext);
 
   return (
     <div className="bg-blue-400 py-3 px-6 flex items-center justify-between md:px-12 md:py-5">
@@ -10,7 +11,7 @@ const Navbar = () => {
         <h1 className="text-3xl text-white font-bold">Hike</h1>
       </Link>
 
-      {isLoggedIn ? (
+      {isUserLoggedIn ? (
         <div className="relative group">
           <button className="focus:outline-none">
             <img

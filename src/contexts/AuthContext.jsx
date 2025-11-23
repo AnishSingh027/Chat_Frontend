@@ -7,7 +7,7 @@ export const AuthProvider = ({ children }) => {
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
 
   useEffect(() => {
-    const loginStatus = localStorage.getItem("isLoggedIn");
+    const loginStatus = localStorage.getItem("isLoggedIn") || false;
     if (loginStatus === "true") {
       checkUserLoggedIn();
     }
