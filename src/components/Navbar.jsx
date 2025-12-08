@@ -15,22 +15,24 @@ const Navbar = () => {
         <div className="relative group">
           <button className="focus:outline-none">
             <img
-              src="https://cdn.britannica.com/49/182849-050-4C7FE34F/scene-Iron-Man.jpg"
+              src="https://png.pngtree.com/png-vector/20250602/ourmid/pngtree-logo-simple-panda-face-for-green-brand-png-image_16378069.png"
               className="cursor-pointer w-12 h-12 rounded-3xl border-2 border-white"
             />
           </button>
 
           <div className="absolute right-0 py-2 w-40 bg-gray-100 rounded shadow-lg z-50 flex flex-col gap-1.5 opacity-0 invisible group-hover:opacity-100 group-hover:visible group-focus-within:opacity-100 group-focus-within:visible transition-opacity duration-300">
-            <h1 className="hover:bg-gray-300 w-full py-2 text-center transition-all focus-within:bg-gray-300">
-              Profile
+            <Link to={"/profile"}>
+              <h1 className="hover:bg-gray-300 w-full py-2 text-center transition-all cursor-pointer">
+                Profile
+              </h1>
+            </Link>
+            <h1 className="hover:bg-gray-300 w-full py-2 text-center transition-all cursor-pointer">
+              Requests
             </h1>
-            <h1 className="hover:bg-gray-300 w-full py-2 text-center transition-all">
-              Add Friends
-            </h1>
-            <h1 className="hover:bg-gray-300 w-full py-2 text-center transition-all">
+            <h1 className="hover:bg-gray-300 w-full py-2 text-center transition-all cursor-pointer">
               Connections
             </h1>
-            <h1 className="hover:bg-gray-300 w-full py-2 text-center transition-all">
+            <h1 className="hover:bg-gray-300 w-full py-2 text-center transition-all cursor-pointer">
               Logout
             </h1>
           </div>

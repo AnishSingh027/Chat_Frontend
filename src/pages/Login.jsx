@@ -11,13 +11,11 @@ const Login = () => {
     email: "manish@gmail.com",
     password: "Manish@123",
   });
-  const { setIsUserLoggedIn } = useContext(AuthContext);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const res = await api.post("/user/login", formData);
-      setIsUserLoggedIn(true);
 
       // Store the loggedIn status in localstorage to keep the status persist in all pages
       localStorage.setItem("isLoggedIn", true);

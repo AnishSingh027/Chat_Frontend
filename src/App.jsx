@@ -8,6 +8,7 @@ import { PublicProtected, PrivateProtected } from "./components/Protected";
 import ForgotPassword from "./pages/ForgotPassword";
 import UpdatePassword from "./pages/UpdatePassword";
 import { UserProvider } from "./contexts/UserContext";
+import Profile from "./pages/Profile";
 
 const AppLayout = () => {
   return (
@@ -32,6 +33,16 @@ const router = createBrowserRouter([
           <PrivateProtected>
             <UserProvider>
               <Home />
+            </UserProvider>
+          </PrivateProtected>
+        ),
+      },
+      {
+        path: "/profile",
+        element: (
+          <PrivateProtected>
+            <UserProvider>
+              <Profile />
             </UserProvider>
           </PrivateProtected>
         ),

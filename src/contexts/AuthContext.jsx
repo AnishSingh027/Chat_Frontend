@@ -4,7 +4,9 @@ import api from "../config/axios";
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
+  const [isUserLoggedIn, setIsUserLoggedIn] = useState(
+    localStorage.getItem("isLoggedIn")
+  );
 
   useEffect(() => {
     const loginStatus = localStorage.getItem("isLoggedIn") || false;
@@ -16,17 +18,15 @@ export const AuthProvider = ({ children }) => {
   const checkUserLoggedIn = async () => {
     try {
       await api.get("/user/is-auth");
-      setIsUserLoggedIn(true);
       localStorage.setItem("isLoggedIn", true);
     } catch (error) {
-      setIsUserLoggedIn(false);
       localStorage.setItem("isLoggedIn", false);
       console.log(error?.response);
     }
   };
 
   return (
-    <AuthContext.Provider value={{ setIsUserLoggedIn, isUserLoggedIn }}>
+    <AuthContext.Provider value={{ isUserLoggedIn }}>
       {children}
     </AuthContext.Provider>
   );
