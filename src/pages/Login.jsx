@@ -12,6 +12,8 @@ const Login = () => {
     password: "Manish@123",
   });
 
+  const { setIsUserLoggedIn } = useContext(AuthContext);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -19,6 +21,7 @@ const Login = () => {
 
       // Store the loggedIn status in localstorage to keep the status persist in all pages
       localStorage.setItem("isLoggedIn", true);
+      setIsUserLoggedIn("true");
       alert(res?.data?.message);
     } catch (error) {
       alert(error?.response?.data?.error);

@@ -1,9 +1,26 @@
 import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import AuthContext from "../contexts/AuthContext";
+import api from "../config/axios";
 
 const Navbar = () => {
-  const { isUserLoggedIn } = useContext(AuthContext);
+  const { isUserLoggedIn, setIsUserLoggedIn } = useContext(AuthContext);
+
+  // Logout User
+
+  const logoutUser = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await api.post("/user/logout");
+
+      if (res?.status == 200) {
+        alert(res?.data?.message);
+        setIsUserLoggedIn("false");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div className="bg-blue-400 py-3 px-6 flex items-center justify-between md:px-12 md:py-5">
@@ -11,7 +28,7 @@ const Navbar = () => {
         <h1 className="text-3xl text-white font-bold">Hike</h1>
       </Link>
 
-      {isUserLoggedIn ? (
+      {isUserLoggedIn == "true" ? (
         <div className="relative group">
           <button className="focus:outline-none">
             <img
@@ -32,7 +49,10 @@ const Navbar = () => {
             <h1 className="hover:bg-gray-300 w-full py-2 text-center transition-all cursor-pointer">
               Connections
             </h1>
-            <h1 className="hover:bg-gray-300 w-full py-2 text-center transition-all cursor-pointer">
+            <h1
+              onClick={(e) => logoutUser(e)}
+              className="hover:bg-gray-300 w-full py-2 text-center transition-all cursor-pointer"
+            >
               Logout
             </h1>
           </div>

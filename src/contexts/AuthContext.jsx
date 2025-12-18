@@ -9,7 +9,7 @@ export const AuthProvider = ({ children }) => {
   );
 
   useEffect(() => {
-    const loginStatus = localStorage.getItem("isLoggedIn") || false;
+    const loginStatus = localStorage.getItem("isLoggedIn") || "false";
     if (loginStatus === "true") {
       checkUserLoggedIn();
     }
@@ -18,15 +18,17 @@ export const AuthProvider = ({ children }) => {
   const checkUserLoggedIn = async () => {
     try {
       await api.get("/user/is-auth");
-      localStorage.setItem("isLoggedIn", true);
+      localStorage.setItem("isLoggedIn", "true");
+      setIsUserLoggedIn("true");
     } catch (error) {
-      localStorage.setItem("isLoggedIn", false);
+      localStorage.setItem("isLoggedIn", "false");
+      setIsUserLoggedIn("false");
       console.log(error?.response);
     }
   };
 
   return (
-    <AuthContext.Provider value={{ isUserLoggedIn }}>
+    <AuthContext.Provider value={{ isUserLoggedIn, setIsUserLoggedIn }}>
       {children}
     </AuthContext.Provider>
   );
