@@ -1,7 +1,9 @@
 import { createContext, useEffect, useState } from "react";
 import api from "../config/axios";
 
-const AllUsersContext = createContext();
+const AllUsersContext = createContext({
+  allUsers: [],
+});
 
 export const AllUserProvider = ({ children }) => {
   const [allUsers, setAllUsers] = useState([]);
