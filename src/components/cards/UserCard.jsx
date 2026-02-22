@@ -1,4 +1,4 @@
-import { useUserRequest } from "./UserCard";
+import { useUserRequest } from "./useUserCard";
 
 const UserCard = ({ user }) => {
   const { _id, firstName, lastName, age, gender, photoUrl } = user;

@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import UserCard from "../components/cards/userCard.jsx";
+import UserCard from "../components/cards/UserCard.jsx";
 import AllUsersContext from "../contexts/AllUsers.jsx";
 
 const Home = () => {
