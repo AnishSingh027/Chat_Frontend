@@ -8,6 +8,7 @@ import { PublicProtected, PrivateProtected } from "./components/Protected";
 import ForgotPassword from "./pages/ForgotPassword";
 import UpdatePassword from "./pages/UpdatePassword";
 import { UserProvider } from "./contexts/UserContext";
+import { AllUserProvider } from "./contexts/AllUsers";
 import Profile from "./pages/Profile";
 
 const AppLayout = () => {
@@ -32,7 +33,9 @@ const router = createBrowserRouter([
         element: (
           <PrivateProtected>
             <UserProvider>
-              <Home />
+              <AllUserProvider>
+                <Home />
+              </AllUserProvider>
             </UserProvider>
           </PrivateProtected>
         ),

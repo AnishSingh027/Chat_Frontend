@@ -44,7 +44,10 @@ const Navbar = () => {
               </h1>
             </Link>
             <h1 className="hover:bg-gray-300 w-full py-2 text-center transition-all cursor-pointer">
-              Requests
+              Sent Request
+            </h1>
+            <h1 className="hover:bg-gray-300 w-full py-2 text-center transition-all cursor-pointer">
+              Received Requests
             </h1>
             <h1 className="hover:bg-gray-300 w-full py-2 text-center transition-all cursor-pointer">
               Connections

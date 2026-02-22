@@ -42,7 +42,7 @@ const Profile = () => {
     try {
       const res = await api.post(
         `/user/update-details/${userData?._id}`,
-        formData
+        formData,
       );
 
       if (res?.status == 200) {
@@ -51,7 +51,7 @@ const Profile = () => {
 
       console.log(res);
     } catch (error) {
-      console.log(error?.response?.data?.erroror);
+      console.log(error?.response?.data?.error);
     }
   };
 
