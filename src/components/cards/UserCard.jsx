@@ -1,7 +1,7 @@
 import { useUserRequest } from "./useUserCard";
 
 const UserCard = ({ user }) => {
-  const { _id, firstName, lastName, age, gender, photoUrl } = user;
+  const { _id, firstName, lastName, age, gender, photoUrl } = user || {};
   const { sendRequestToSpecificUser } = useUserRequest();
 
   const sendRequest = (userId) => {
@@ -24,12 +24,9 @@ const UserCard = ({ user }) => {
       <div className="flex items-center justify-between">
         <button
           onClick={() => sendRequest(_id)}
-          className="py-2 px-4 bg-blue-500 text-white font-bold rounded cursor-pointer hover:bg-blue-700 transition duration-100"
+          className="py-2 px-4 w-full bg-blue-500 text-white font-bold rounded cursor-pointer hover:bg-blue-700 transition duration-100"
         >
           Send
-        </button>
-        <button className="py-2 px-4 bg-red-500 text-white font-bold rounded cursor-pointer hover:bg-red-700 transition duration-100">
-          Reject
         </button>
       </div>
     </div>

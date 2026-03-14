@@ -10,6 +10,7 @@ import UpdatePassword from "./pages/UpdatePassword";
 import { UserProvider } from "./contexts/UserContext";
 import { AllUserProvider } from "./contexts/AllUsers";
 import Profile from "./pages/Profile";
+import SentRequest from "./pages/SentRequest";
 
 const AppLayout = () => {
   return (
@@ -46,6 +47,18 @@ const router = createBrowserRouter([
           <PrivateProtected>
             <UserProvider>
               <Profile />
+            </UserProvider>
+          </PrivateProtected>
+        ),
+      },
+      {
+        path: "/sent-request",
+        element: (
+          <PrivateProtected>
+            <UserProvider>
+              <AllUserProvider>
+                <SentRequest />
+              </AllUserProvider>
             </UserProvider>
           </PrivateProtected>
         ),

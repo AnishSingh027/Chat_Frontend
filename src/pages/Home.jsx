@@ -9,8 +9,8 @@ const Home = () => {
     return <h1>Users Loading...</h1>;
 
   return (
-    <div className="w-full h-[calc(100vh-100px)] p-8 md:px-12 md:py-8 ">
-      <div className="flex flex-col justify-around md:flex-row gap-7">
+    <div className="w-full p-8 md:px-12 md:py-8">
+      <div className="flex justify-center items-center flex-wrap gap-7 md:justify-start">
         {allUsers.map((user) => {
           return <UserCard key={user?._id} user={{ ...user }} />;
         })}

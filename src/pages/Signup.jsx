@@ -7,14 +7,17 @@ import api from "../config/axios";
 const Signup = () => {
   const [passwordIsVisible, setPasswordIsVisible] = useState(false);
 
-  const [formData, setFormData] = useState({
+  const initialState = {
     firstName: "",
     lastName: "",
     age: 18,
     gender: "male",
     email: "",
     password: "",
-  });
+    photoUrl: "",
+  };
+
+  const [formData, setFormData] = useState(initialState);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -30,6 +33,7 @@ const Signup = () => {
         withCredentials: false,
       });
       alert(res?.data?.message);
+      setFormData(initialState);
     } catch (error) {
       alert(error?.response?.data?.error);
     }
@@ -75,6 +79,17 @@ const Signup = () => {
               className="bg-gray-100 px-2 py-1 w-full rounded outline-none md:w-3/4"
             />
           </div>
+          <div className="items-start justify-between gap-2 flex flex-col md:flex-row md:items-center md:gap-3">
+            <label className="w-full md:w-1/4">Image URL: </label>
+            <input
+              type="text"
+              name="photoUrl"
+              value={formData.photoUrl}
+              onChange={(e) => handleChange(e)}
+              placeholder="Enter your photo url"
+              className="bg-gray-100 px-2 py-1 w-full rounded outline-none md:w-3/4"
+            />
+          </div>
           <div className="items-start gap-2 flex flex-col md:flex-row md:items-center md:gap-3">
             <label className="w-full md:w-1/4">Gender: </label>
             <select
@@ -88,7 +103,7 @@ const Signup = () => {
             </select>
           </div>
           <div className="items-start justify-between gap-2 flex flex-col md:flex-row md:items-center md:gap-3">
-            <label className="w-full md:w-1/4">Username: </label>
+            <label className="w-full md:w-1/4">Email: </label>
             <input
               type="email"
               name="email"

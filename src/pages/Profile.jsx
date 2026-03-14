@@ -3,7 +3,7 @@ import UserContext from "../contexts/UserContext";
 import api from "../config/axios";
 
 const Profile = () => {
-  const { userData } = useContext(UserContext);
+  const { userData, setUserData } = useContext(UserContext);
 
   const [formData, setFormData] = useState({
     firstName: "",
@@ -38,6 +38,7 @@ const Profile = () => {
 
   const handleOnSubmit = async (e) => {
     e.preventDefault();
+    setUserData(formData);
 
     try {
       const res = await api.post(

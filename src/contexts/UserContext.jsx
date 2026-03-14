@@ -23,6 +23,7 @@ export const UserProvider = ({ children }) => {
     <UserContext.Provider
       value={{
         userData,
+        setUserData,
       }}
     >
       {children}
