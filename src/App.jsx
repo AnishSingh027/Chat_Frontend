@@ -10,7 +10,9 @@ import UpdatePassword from "./pages/UpdatePassword";
 import { UserProvider } from "./contexts/UserContext";
 import { AllUserProvider } from "./contexts/AllUsers";
 import Profile from "./pages/Profile";
-import SentRequest from "./pages/SentRequest";
+import SentRequest from "./pages/SentRequest/SentRequest";
+import ReceivedRequest from "./pages/ReceivedRequest/ReceivedRequest.jsx";
+import ConnectionRequest from "./pages/ConnectionRequest/ConnectionRequest.jsx";
 
 const AppLayout = () => {
   return (
@@ -58,6 +60,30 @@ const router = createBrowserRouter([
             <UserProvider>
               <AllUserProvider>
                 <SentRequest />
+              </AllUserProvider>
+            </UserProvider>
+          </PrivateProtected>
+        ),
+      },
+      {
+        path: "/received-request",
+        element: (
+          <PrivateProtected>
+            <UserProvider>
+              <AllUserProvider>
+                <ReceivedRequest />
+              </AllUserProvider>
+            </UserProvider>
+          </PrivateProtected>
+        ),
+      },
+      {
+        path: "/connections",
+        element: (
+          <PrivateProtected>
+            <UserProvider>
+              <AllUserProvider>
+                <ConnectionRequest />
               </AllUserProvider>
             </UserProvider>
           </PrivateProtected>

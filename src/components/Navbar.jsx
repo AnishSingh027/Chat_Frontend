@@ -59,18 +59,22 @@ const Navbar = () => {
                   Sent Request
                 </h1>
               </Link>
-              <h1
-                onClick={() => setIsOpen(false)}
-                className="hover:bg-gray-300 w-full py-2 text-center transition-all cursor-pointer"
-              >
-                Received Requests
-              </h1>
-              <h1
-                onClick={() => setIsOpen(false)}
-                className="hover:bg-gray-300 w-full py-2 text-center transition-all cursor-pointer"
-              >
-                Connections
-              </h1>
+              <Link to={"/received-request"}>
+                <h1
+                  onClick={() => setIsOpen(false)}
+                  className="hover:bg-gray-300 w-full py-2 text-center transition-all cursor-pointer"
+                >
+                  Received Requests
+                </h1>
+              </Link>
+              <Link to={"/connections"}>
+                <h1
+                  onClick={() => setIsOpen(false)}
+                  className="hover:bg-gray-300 w-full py-2 text-center transition-all cursor-pointer"
+                >
+                  Connections
+                </h1>
+              </Link>
               <h1
                 onClick={(e) => logoutUser(e)}
                 className="hover:bg-gray-300 w-full py-2 text-center transition-all cursor-pointer"

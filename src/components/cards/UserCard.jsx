@@ -1,12 +1,11 @@
-import { useUserRequest } from "./useUserCard";
-
-const UserCard = ({ user }) => {
+const UserCard = ({ user, button }) => {
   const { _id, firstName, lastName, age, gender, photoUrl } = user || {};
-  const { sendRequestToSpecificUser } = useUserRequest();
+  const { isPresent, buttonFeatures } = button || {};
+  // const { sendRequestToSpecificUser } = useUserRequest();
 
-  const sendRequest = (userId) => {
-    sendRequestToSpecificUser(userId);
-  };
+  // const sendRequest = (userId) => {
+  //   sendRequestToSpecificUser(userId);
+  // };
 
   return (
     <div className="shadow-2xl rounded p-5 px-3 w-64 flex justify-between gap-3 flex-col">
@@ -17,18 +16,27 @@ const UserCard = ({ user }) => {
         />
       </div>
       <h1 className="font-bold text-xl">{firstName + " " + lastName}</h1>
-      <div className="flex items-center justify-between">
-        <h2>Age: {age}</h2>
-        <h2>Gender: {gender == "male" ? "M" : "F"}</h2>
-      </div>
-      <div className="flex items-center justify-between">
-        <button
-          onClick={() => sendRequest(_id)}
-          className="py-2 px-4 w-full bg-blue-500 text-white font-bold rounded cursor-pointer hover:bg-blue-700 transition duration-100"
-        >
-          Send
-        </button>
-      </div>
+      {age && (
+        <div className="flex items-center justify-between">
+          <h2>Age: {age}</h2>
+          <h2>Gender: {gender == "male" ? "M" : "F"}</h2>
+        </div>
+      )}
+      {isPresent && (
+        <div className="flex items-center justify-between gap-2">
+          {buttonFeatures.map((item, id) => {
+            return (
+              <button
+                key={id}
+                onClick={item?.method}
+                className={`py-2 px-4 w-full ${item.color} text-white font-bold rounded cursor-pointer ${item.hover} transition duration-100`}
+              >
+                {item.function}
+              </button>
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 };
