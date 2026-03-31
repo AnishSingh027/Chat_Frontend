@@ -1,7 +1,8 @@
 import axios from "axios";
+import { BASE_URL } from "./constants";
 
 const api = axios.create({
-  baseURL: location.hostname == "localhost" ? "http://localhost:5000/" : "/api",
+  baseURL: BASE_URL,
   withCredentials: true,
 });
 
@@ -15,7 +16,7 @@ api.interceptors.request.use(
   (error) => {
     console.log("Error: ", error.message);
     return Promise.reject(error);
-  }
+  },
 );
 
 // -----------------Response interceptors--------------------
@@ -28,7 +29,7 @@ api.interceptors.response.use(
   (error) => {
     console.log("Error", error.response.status, " ", error.message);
     return Promise.reject(error);
-  }
+  },
 );
 
 export default api;

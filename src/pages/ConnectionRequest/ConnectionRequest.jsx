@@ -1,12 +1,24 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { viewAllConnections } from "./ConnectionRequest.js";
 import UserCard from "../../components/cards/UserCard.jsx";
+import { useRedirectConnectionUser } from "./ConnectionRequest.js";
+import UserContext from "../../contexts/UserContext.jsx";
 
 const ConnectionRequest = () => {
   const [users, setUsers] = useState([]);
+  const { userData } = useContext(UserContext);
+  const { redirectToSpecificUser } = useRedirectConnectionUser();
 
   const AddUsers = async () => {
     viewAllConnections(setUsers);
+  };
+
+  const checkTargetUser = (user) => {
+    if (user?.user1?._id == userData?._id) {
+      return user?.user2;
+    } else {
+      return user?.user1;
+    }
   };
 
   useEffect(() => {
@@ -21,7 +33,8 @@ const ConnectionRequest = () => {
           return (
             <UserCard
               key={id}
-              user={{ ...user?.user1 }}
+              // user={{ ...user?.user1 }}
+              user={{ ...checkTargetUser(user) }}
               button={{
                 isPresent: true,
                 buttonFeatures: [
@@ -29,7 +42,8 @@ const ConnectionRequest = () => {
                     function: "Chat now",
                     color: "bg-blue-500",
                     hover: "hover:bg-blue-700",
-                    method: () => console.log("hello"),
+                    method: () =>
+                      redirectToSpecificUser(checkTargetUser(user)._id),
                   },
                 ],
               }}

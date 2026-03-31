@@ -13,6 +13,7 @@ import Profile from "./pages/Profile";
 import SentRequest from "./pages/SentRequest/SentRequest";
 import ReceivedRequest from "./pages/ReceivedRequest/ReceivedRequest.jsx";
 import ConnectionRequest from "./pages/ConnectionRequest/ConnectionRequest.jsx";
+import Chat from "./pages/Chat/Chat.jsx";
 
 const AppLayout = () => {
   return (
@@ -84,6 +85,18 @@ const router = createBrowserRouter([
             <UserProvider>
               <AllUserProvider>
                 <ConnectionRequest />
+              </AllUserProvider>
+            </UserProvider>
+          </PrivateProtected>
+        ),
+      },
+      {
+        path: "/chat/:targetUserID",
+        element: (
+          <PrivateProtected>
+            <UserProvider>
+              <AllUserProvider>
+                <Chat />
               </AllUserProvider>
             </UserProvider>
           </PrivateProtected>

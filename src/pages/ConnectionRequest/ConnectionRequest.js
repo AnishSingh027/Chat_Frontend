@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import api from "../../config/axios";
 
 export const viewAllConnections = async (storeUsers) => {
@@ -7,4 +8,14 @@ export const viewAllConnections = async (storeUsers) => {
   } catch (error) {
     console.log(error?.response);
   }
+};
+
+export const useRedirectConnectionUser = () => {
+  const navigate = useNavigate();
+
+  const redirectToSpecificUser = (targetUserID) => {
+    return navigate(`/chat/${targetUserID}`);
+  };
+
+  return { redirectToSpecificUser };
 };
