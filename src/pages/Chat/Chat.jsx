@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { connectSocketToServer } from "../../config/socket";
 import { useContext } from "react";
 import UserContext from "../../contexts/UserContext";
+import api from "../../config/axios";
 
 const Chat = () => {
   let socketRef = useRef(null);
@@ -21,6 +22,27 @@ const Chat = () => {
     });
     setNewMessage("");
   };
+
+  const fetchConnectionChat = async () => {
+    try {
+      const chats = await api.get(`/chat/fetch-chat/${targetUserID}`);
+      const allMessages = chats?.data?.chat;
+      // const participantDetails = allMessages?.map((user) => user?.senderId);
+      setMessages(
+        allMessages.map((chat) => ({
+          firstName: chat?.senderId?.firstName,
+          photoUrl: chat?.senderId?.photoUrl,
+          text: chat?.content,
+        })),
+      );
+    } catch (error) {
+      console.log(error?.response);
+    }
+  };
+
+  useEffect(() => {
+    fetchConnectionChat();
+  }, []);
 
   useEffect(() => {
     socketRef.current = connectSocketToServer();
@@ -47,7 +69,7 @@ const Chat = () => {
 
     return () => {
       socket.off("receiveMsg");
-      socket.disconnect();
+      // socket.disconnect();
     };
   }, [userData]);
 
@@ -55,7 +77,7 @@ const Chat = () => {
     <div className="w-full p-8 md:px-12 md:py-8">
       <h1 className="text-2xl font-bold mb-5">Chat</h1>
       <div className="w-auto mx-auto md:w-[600px]">
-        <div className="border border-solid px-4 py-6 md:px-6 min-h-80">
+        <div className="border border-solid px-4 py-6 md:px-6 max-h-80 h-80 overflow-y-scroll">
           {messages.length > 0 &&
             messages.map((msg, index) => {
               return (
