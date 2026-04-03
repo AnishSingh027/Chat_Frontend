@@ -2,6 +2,10 @@ import { io } from "socket.io-client";
 import { BASE_URL } from "./constants";
 
 export const connectSocketToServer = () => {
-  const socket = io(BASE_URL);
-  return socket;
+  if (location.hostname === "localhost") {
+    const socket = io(BASE_URL);
+    return socket;
+  } else {
+    return io("/", { path: "/api/socket.io" });
+  }
 };
