@@ -1,18 +1,21 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useContext } from "react";
 import { useParams } from "react-router-dom";
 import { connectSocketToServer } from "../../config/socket";
-import { useContext } from "react";
 import UserContext from "../../contexts/UserContext";
 import api from "../../config/axios";
 
 const Chat = () => {
   let socketRef = useRef(null);
+  const bottomRef = useRef(null);
   const { targetUserID } = useParams();
   const { userData } = useContext(UserContext);
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
+  const [targetUser, setTargetUser] = useState({});
 
   const handleSendMessage = () => {
+    if (!newMessage.trim()) return;
+
     socketRef.current.emit("sendMessage", {
       firstName: userData?.firstName,
       senderUserID: userData?._id,
@@ -27,7 +30,7 @@ const Chat = () => {
     try {
       const chats = await api.get(`/chat/fetch-chat/${targetUserID}`);
       const allMessages = chats?.data?.chat;
-      // const participantDetails = allMessages?.map((user) => user?.senderId);
+
       setMessages(
         allMessages.map((chat) => ({
           firstName: chat?.senderId?.firstName,
@@ -40,13 +43,24 @@ const Chat = () => {
     }
   };
 
+  const getTargetUserDetails = async () => {
+    try {
+      const res = await api.get(
+        `/connection/targetUser-details/${targetUserID}`,
+      );
+      setTargetUser(res?.data?.user);
+    } catch (error) {
+      console.log(error?.response);
+    }
+  };
+
   useEffect(() => {
     fetchConnectionChat();
+    getTargetUserDetails();
   }, []);
 
   useEffect(() => {
     socketRef.current = connectSocketToServer();
-
     return () => socketRef.current.disconnect();
   }, []);
 
@@ -63,52 +77,89 @@ const Chat = () => {
 
     socket.on("receiveMsg", ({ firstName, text, photoUrl }) => {
       setMessages((prev) => [...prev, { firstName, text, photoUrl }]);
-      console.log("Message Firstname: ", firstName);
-      console.log("Message text: ", text);
     });
 
     return () => {
       socket.off("receiveMsg");
-      // socket.disconnect();
     };
   }, [userData]);
 
+  // Auto scroll
+  useEffect(() => {
+    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
+
   return (
-    <div className="w-full p-8 md:px-12 md:py-8">
-      <h1 className="text-2xl font-bold mb-5">Chat</h1>
-      <div className="w-auto mx-auto md:w-[600px]">
-        <div className="border border-solid px-4 py-6 md:px-6 max-h-80 h-80 overflow-y-scroll">
-          {messages.length > 0 &&
-            messages.map((msg, index) => {
-              return (
-                <div className="flex gap-2 items-center mb-2" key={index}>
-                  <div className="mt-5">
-                    <img
-                      src={msg?.photoUrl}
-                      alt="Profile"
-                      className="cursor-pointer w-12 h-12 rounded-3xl border-2 border-black"
-                    />
-                  </div>
-                  <div className="w-full">
-                    <h1>{msg?.firstName}</h1>
-                    <div className="w-full bg-gray-100 rounded px-5 py-3 md:w-[60%]">
-                      <p className="text-sm md:text-lg">{msg?.text}</p>
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
+    <div className="min-h-[calc(100vh-80px)] px-4 md:px-10 py-6 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex justify-center">
+      <div className="w-full max-w-4xl flex flex-col rounded-2xl bg-slate-900/80 backdrop-blur-xl border border-white/10 shadow-2xl overflow-hidden">
+        {/* Header */}
+        <div className="px-6 py-4 border-b border-white/10 flex items-center gap-3">
+          {/* <div className="w-10 h-10 rounded-full bg-white/10" /> */}
+          <img
+            src={targetUser?.photoUrl}
+            className="w-8 h-8 rounded-full object-cover border border-white/10"
+          />
+          <h1 className="text-white font-medium text-lg">
+            {targetUser?.firstName} {targetUser?.lastName}
+          </h1>
         </div>
-        <div className="flex">
+
+        {/* Messages */}
+        <div className="flex-1 overflow-y-auto px-4 py-6 space-y-4">
+          {messages.map((msg, index) => {
+            const isOwn = msg.firstName === userData?.firstName;
+
+            return (
+              <div
+                key={index}
+                className={`flex items-end gap-2 ${
+                  isOwn ? "justify-end" : "justify-start"
+                }`}
+              >
+                {!isOwn && (
+                  <img
+                    src={msg?.photoUrl}
+                    className="w-8 h-8 rounded-full object-cover border border-white/10"
+                  />
+                )}
+
+                <div
+                  className={`max-w-[70%] px-4 py-2 rounded-2xl text-sm md:text-base shadow-md ${
+                    isOwn
+                      ? "bg-gradient-to-r from-blue-500 to-indigo-600 text-white rounded-br-sm"
+                      : "bg-white/5 text-white rounded-bl-sm border border-white/10"
+                  }`}
+                >
+                  <p className="text-xs text-white mb-1">{msg?.firstName}</p>
+                  {msg.text}
+                </div>
+
+                {isOwn && (
+                  <img
+                    src={msg?.photoUrl}
+                    className="w-8 h-8 rounded-full object-cover border border-white/10"
+                  />
+                )}
+              </div>
+            );
+          })}
+          <div ref={bottomRef} />
+        </div>
+
+        {/* Input */}
+        <div className="p-4 border-t border-white/10 flex items-center gap-3 bg-slate-900/90">
           <input
             type="text"
-            className="w-full outline-none border border-black px-4 py-2 border-t-0"
+            placeholder="Type a message..."
+            className="flex-1 px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
             value={newMessage}
             onChange={(e) => setNewMessage(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && handleSendMessage()}
           />
+
           <button
             onClick={handleSendMessage}
-            className="bg-blue-600 font-bold text-white px-5 cursor-pointer"
+            className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-blue-500 to-indigo-600 text-white font-medium shadow-md hover:shadow-lg hover:scale-[1.02] active:scale-95 transition-all"
           >
             Send
           </button>

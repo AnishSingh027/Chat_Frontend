@@ -56,28 +56,39 @@ const UpdatePassword = () => {
   }, []);
 
   return (
-    <div className="px-6 flex items-center justify-center h-[calc(100vh-100px)]">
-      <div className="w-72 rounded shadow-xl md:w-96">
-        <h1 className="bg-blue-400 font-bold text-white text-center text-xl py-2 mb-4">
-          Set New Password
-        </h1>
-        <form className="py-2 px-4 flex flex-col gap-3" onSubmit={handleSubmit}>
-          <div className="items-start justify-between gap-2 flex md:flex-row md:items-center md:gap-3">
+    <div className="min-h-[calc(100vh-80px)] flex items-center justify-center px-4 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+      <div className="w-full max-w-md rounded-2xl bg-slate-900/80 backdrop-blur-xl border border-white/10 shadow-2xl">
+        {/* Header */}
+        <div className="px-6 py-4 border-b border-white/10">
+          <h1 className="text-xl font-semibold text-white text-center tracking-wide">
+            Set New Password
+          </h1>
+          <p className="text-sm text-slate-400 text-center mt-1">
+            Enter OTP and create a new password
+          </p>
+        </div>
+
+        {/* Form */}
+        <form className="px-6 py-6 flex flex-col gap-5" onSubmit={handleSubmit}>
+          {/* OTP */}
+          <div className="flex justify-between gap-2">
             {new Array(6).fill("").map((_, index) => (
               <input
                 key={index}
                 ref={(element) => (OTPField.current[index] = element)}
                 type="text"
-                placeholder="0"
+                placeholder="•"
                 maxLength={1}
                 onChange={(e) => handleInputField(e, index)}
                 onKeyDown={(e) => handleKeyDown(e, index)}
-                className="bg-gray-100 px-2 py-1 w-full rounded outline-none text-center focus:shadow-2xl"
+                className="w-full h-12 text-center rounded-xl bg-white/5 border border-white/10 text-white text-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
               />
             ))}
           </div>
-          <div className="items-start justify-between gap-2 flex flex-col mt-3 md:flex-row md:items-center md:gap-3">
-            <label className="w-full md:w-1/4">Password: </label>
+
+          {/* Password */}
+          <div className="flex flex-col gap-1">
+            <label className="text-sm text-slate-400">New Password</label>
             <input
               type="password"
               name="password"
@@ -90,22 +101,26 @@ const UpdatePassword = () => {
                 }))
               }
               placeholder="Enter new password"
-              className="bg-gray-100 px-2 py-1 w-full rounded outline-none md:w-3/4"
+              className="w-full px-3 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
             />
           </div>
-          <div className="items-start justify-between gap-2 flex flex-col md:flex-row md:items-center md:gap-3">
-            <label className="w-full md:w-1/4">Confirm: </label>
+
+          {/* Confirm Password */}
+          <div className="flex flex-col gap-1">
+            <label className="text-sm text-slate-400">Confirm Password</label>
             <input
               type="text"
               name="confirmPassword"
               autoComplete="off"
               placeholder="Confirm password"
-              className="bg-gray-100 px-2 py-1 w-full rounded outline-none md:w-3/4"
+              className="w-full px-3 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
             />
           </div>
+
+          {/* Submit */}
           <button
             type="submit"
-            className="px-5 py-1 bg-blue-400 font-bold text-white mt-3 cursor-pointer active:scale-90 transition-all"
+            className="w-full py-2.5 rounded-xl bg-gradient-to-r from-blue-500 to-indigo-600 text-white font-medium shadow-md hover:shadow-lg hover:scale-[1.02] active:scale-95 transition-all duration-200"
           >
             Save Password
           </button>

@@ -49,102 +49,116 @@ const Profile = () => {
       if (res?.status == 200) {
         alert(res?.data?.message);
       }
-
-      console.log(res);
     } catch (error) {
       console.log(error?.response?.data?.error);
     }
   };
 
   return (
-    <div className="w-full h-[calc(100vh-100px)] p-8 md:px-12 md:py-8">
-      <h1 className="font-bold text-3xl mb-10">Edit your profile</h1>
-      <form onSubmit={handleOnSubmit}>
-        <div className="flex justify-between flex-col gap-5 md:gap-8 md:flex-row">
-          <div className="w-full md:w-3/5">
-            <div className="flex gap-5 flex-col mb-8">
-              <label className="1/5 text-xl">Email: </label>
+    <div className="min-h-[calc(100vh-80px)] px-4 md:px-10 py-8 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+      <div className="max-w-6xl mx-auto">
+        <h1 className="text-2xl md:text-3xl font-semibold text-white mb-8">
+          Edit Profile
+        </h1>
+
+        <form onSubmit={handleOnSubmit} className="grid md:grid-cols-3 gap-6">
+          {/* Left Section */}
+          <div className="md:col-span-2 bg-slate-900/80 backdrop-blur-xl border border-white/10 rounded-2xl p-6 space-y-5 shadow-xl">
+            {/* Email */}
+            <div className="flex flex-col gap-1">
+              <label className="text-sm text-slate-400">Email</label>
               <input
                 type="text"
                 value={formData.email}
-                placeholder="abc@gmail.com"
-                className="w-full p-3 rounded outline-none border-black border cursor-not-allowed text-gray-500 md:4/5"
-                readOnly={true}
+                readOnly
+                className="w-full px-3 py-2.5 rounded-xl bg-white/5 border border-white/10 text-slate-500 cursor-not-allowed"
               />
             </div>
-            <div className="flex gap-5 flex-col mb-8">
-              <label className="1/5 text-xl">Firstname: </label>
+
+            {/* First Name */}
+            <div className="flex flex-col gap-1">
+              <label className="text-sm text-slate-400">First Name</label>
               <input
                 type="text"
                 value={formData.firstName}
                 name="firstName"
-                onChange={(e) => handleOnChange(e)}
-                placeholder="Enter firstname"
-                className="w-full p-3 rounded outline-none border-black border md:4/5"
+                onChange={handleOnChange}
+                placeholder="Enter first name"
+                className="w-full px-3 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
-            <div className="flex gap-5 flex-col mb-8">
-              <label className="1/5 text-xl">Lastname: </label>
+
+            {/* Last Name */}
+            <div className="flex flex-col gap-1">
+              <label className="text-sm text-slate-400">Last Name</label>
               <input
                 type="text"
                 value={formData.lastName}
                 name="lastName"
-                onChange={(e) => handleOnChange(e)}
-                placeholder="Enter lastname"
-                className="w-full p-3 rounded outline-none border-black border md:4/5"
+                onChange={handleOnChange}
+                placeholder="Enter last name"
+                className="w-full px-3 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
-            <div className="flex gap-5 flex-col mb-8">
-              <label className="1/5 text-xl">Gender: </label>
-              <select
-                className="w-3/5 bg-blue-500 text-white px-3 py-2 rounded md:w-1/5"
-                value={formData.gender}
-                name="gender"
-                onChange={(e) => handleOnChange(e)}
-              >
-                <option value="male">Male</option>
-                <option value="female">Female</option>
-              </select>
-            </div>
-            <div className="flex gap-5 flex-col mb-8">
-              <label className="1/5 text-xl">Age: </label>
-              <input
-                type="number"
-                name="age"
-                onChange={(e) => handleOnChange(e)}
-                max={100}
-                value={formData.age}
-                className="w-3/5 px-3 py-2 rounded bg-blue-500 text-white md:w-1/5"
-              />
+
+            {/* Gender + Age */}
+            <div className="flex gap-4">
+              <div className="flex-1 flex flex-col gap-1">
+                <label className="text-sm text-slate-400">Gender</label>
+                <select
+                  value={formData.gender}
+                  name="gender"
+                  onChange={handleOnChange}
+                  className="w-full px-3 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                >
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
+                </select>
+              </div>
+
+              <div className="flex-1 flex flex-col gap-1">
+                <label className="text-sm text-slate-400">Age</label>
+                <input
+                  type="number"
+                  name="age"
+                  value={formData.age}
+                  max={100}
+                  onChange={handleOnChange}
+                  className="w-full px-3 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
             </div>
           </div>
-          <div className="w-full md:w-1/5 mb-8 md:mb-0">
-            <div className="mb-8">
-              <img
-                src={formData.photoUrl}
-                alt="Profile picture"
-                className="w-80 h-96 object-cover object-top rounded-xl md:w-full md:h-full"
-              />
-            </div>
+
+          {/* Right Section */}
+          <div className="bg-slate-900/80 backdrop-blur-xl border border-white/10 rounded-2xl p-6 shadow-xl flex flex-col items-center gap-4">
+            <img
+              src={formData.photoUrl}
+              alt="Profile"
+              className="w-40 h-40 rounded-full object-cover border border-white/10 shadow-md"
+            />
+
             <input
               type="text"
               value={formData.photoUrl}
               name="photoUrl"
-              onChange={(e) => handleOnChange(e)}
+              onChange={handleOnChange}
               placeholder="Enter image URL"
-              className="w-full p-3 rounded outline-none border-black border"
+              className="w-full px-3 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
-        </div>
-        <div className="py-8">
-          <button
-            type="submit"
-            className="w-full text-center font-bold py-3 bg-blue-500 rounded text-xl text-white"
-          >
-            Submit
-          </button>
-        </div>
-      </form>
+
+          {/* Submit */}
+          <div className="md:col-span-3">
+            <button
+              type="submit"
+              className="w-full py-3 rounded-xl bg-gradient-to-r from-blue-500 to-indigo-600 text-white font-medium shadow-md hover:shadow-lg hover:scale-[1.01] active:scale-95 transition-all duration-200"
+            >
+              Save Changes
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   );
 };

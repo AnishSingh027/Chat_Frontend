@@ -24,44 +24,58 @@ const ReceivedRequest = () => {
     viewAllReceivedRequest();
   }, []);
 
-  if (users.length == 0) return <h1>No received request</h1>;
+  if (users.length == 0)
+    return (
+      <div className="min-h-[calc(100vh-80px)] flex items-center justify-center bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+        <p className="text-slate-400 text-lg">No received requests</p>
+      </div>
+    );
 
   return (
-    <div className="w-full p-8 md:px-12 md:py-8">
-      <h1 className="font-bold mb-5 text-3xl">Received request</h1>
-      <div className="flex justify-center items-center flex-wrap gap-7 md:justify-start">
-        {users.map((user, id) => {
-          return (
-            <UserCard
-              key={id}
-              user={{ ...user?.user1 }}
-              button={{
-                isPresent: true,
-                buttonFeatures: [
-                  {
-                    function: "Accept",
-                    color: "bg-blue-500",
-                    hover: "hover:bg-blue-700",
-                    method: () => {
-                      handleAction(user?.user1?._id, "accepted");
+    <div className="min-h-[calc(100vh-80px)] px-4 md:px-10 py-8 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+      <div className="max-w-7xl mx-auto">
+        {/* Header */}
+        <div className="mb-8 flex items-center justify-between">
+          <h1 className="text-2xl md:text-3xl font-semibold text-white">
+            Received Requests
+          </h1>
+          <span className="text-sm text-slate-400">
+            {users.length} requests
+          </span>
+        </div>
+
+        {/* Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          {users.map((user, id) => {
+            return (
+              <UserCard
+                key={id}
+                user={{ ...user?.user1 }}
+                button={{
+                  isPresent: true,
+                  buttonFeatures: [
+                    {
+                      function: "Accept",
+                      color: "bg-gradient-to-r from-blue-500 to-indigo-600",
+                      hover: "hover:from-blue-600 hover:to-indigo-700",
+                      method: () => {
+                        handleAction(user?.user1?._id, "accepted");
+                      },
                     },
-                  },
-                  {
-                    function: "Reject",
-                    color: "bg-red-500",
-                    hover: "hover:bg-red-700",
-                    method: () => {
-                      performActionOnReceivedRequest(
-                        user?.user1?._id,
-                        "rejected",
-                      );
+                    {
+                      function: "Reject",
+                      color: "bg-red-500",
+                      hover: "hover:bg-red-600",
+                      method: () => {
+                        handleAction(user?.user1?._id, "rejected");
+                      },
                     },
-                  },
-                ],
-              }}
-            />
-          );
-        })}
+                  ],
+                }}
+              />
+            );
+          })}
+        </div>
       </div>
     </div>
   );

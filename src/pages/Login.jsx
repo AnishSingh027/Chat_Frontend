@@ -1,6 +1,5 @@
 import { useContext, useState } from "react";
-import { FaEye } from "react-icons/fa";
-import { FaEyeSlash } from "react-icons/fa";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import api from "../config/axios";
 import AuthContext from "../contexts/AuthContext";
@@ -19,7 +18,6 @@ const Login = () => {
     try {
       const res = await api.post("/user/login", formData);
 
-      // Store the loggedIn status in localstorage to keep the status persist in all pages
       localStorage.setItem("isLoggedIn", true);
       setIsUserLoggedIn("true");
       alert(res?.data?.message);
@@ -29,14 +27,23 @@ const Login = () => {
   };
 
   return (
-    <div className="px-6 flex items-center justify-center h-[calc(100vh-100px)]">
-      <div className="w-72 rounded shadow-xl md:w-96">
-        <h1 className="bg-blue-400 font-bold text-white text-center text-xl py-2 mb-4">
-          Login
-        </h1>
-        <form className="py-2 px-4 flex flex-col gap-3" onSubmit={handleSubmit}>
-          <div className="items-start justify-between gap-2 flex flex-col md:flex-row md:items-center md:gap-3">
-            <label className="w-full md:w-1/4">Username: </label>
+    <div className="min-h-[calc(100vh-80px)] flex items-center justify-center px-4 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+      <div className="w-full max-w-md rounded-2xl bg-slate-900/80 backdrop-blur-xl border border-white/10 shadow-2xl">
+        {/* Header */}
+        <div className="px-6 py-4 border-b border-white/10">
+          <h1 className="text-xl font-semibold text-white text-center tracking-wide">
+            Welcome Back
+          </h1>
+          <p className="text-sm text-slate-400 text-center mt-1">
+            Login to continue
+          </p>
+        </div>
+
+        {/* Form */}
+        <form className="px-6 py-6 flex flex-col gap-5" onSubmit={handleSubmit}>
+          {/* Email */}
+          <div className="flex flex-col gap-1">
+            <label className="text-sm text-slate-400">Email</label>
             <input
               type="email"
               placeholder="Enter your email"
@@ -48,13 +55,15 @@ const Login = () => {
                   [e.target.name]: e.target.value,
                 }))
               }
-              className="bg-gray-100 px-2 py-1 w-full rounded outline-none md:w-3/4"
+              className="w-full px-3 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
             />
           </div>
-          <div className="items-start justify-between gap-2 flex flex-col md:flex-row md:items-center md:gap-3 relative">
-            <label className="w-full md:w-1/4">Password: </label>
+
+          {/* Password */}
+          <div className="flex flex-col gap-1 relative">
+            <label className="text-sm text-slate-400">Password</label>
             <input
-              type={`${passwordIsVisible ? "text" : "password"}`}
+              type={passwordIsVisible ? "text" : "password"}
               placeholder="Enter your password"
               value={formData.password}
               name="password"
@@ -64,34 +73,40 @@ const Login = () => {
                   [e.target.name]: e.target.value,
                 }))
               }
-              className="bg-gray-100 pl-2 pr-8 py-1 w-full rounded outline-none md:w-3/4"
+              className="w-full px-3 py-2.5 pr-10 rounded-xl bg-white/5 border border-white/10 text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
             />
+
             {passwordIsVisible ? (
               <FaEyeSlash
-                className="absolute right-2.5 bottom-2 cursor-pointer"
+                className="absolute right-3 top-9 text-slate-400 cursor-pointer hover:text-white transition"
                 onClick={() => setPasswordIsVisible(false)}
               />
             ) : (
               <FaEye
-                className="absolute right-2.5 bottom-2 cursor-pointer"
+                className="absolute right-3 top-9 text-slate-400 cursor-pointer hover:text-white transition"
                 onClick={() => setPasswordIsVisible(true)}
               />
             )}
           </div>
-          <button className="px-5 py-1 w-full bg-blue-400 font-bold text-white mt-3 cursor-pointer active:scale-90 transition-all">
+
+          {/* Login Button */}
+          <button className="w-full py-2.5 rounded-xl bg-gradient-to-r from-blue-500 to-indigo-600 text-white font-medium shadow-md hover:shadow-lg hover:scale-[1.02] active:scale-95 transition-all duration-200">
             Login
           </button>
         </form>
-        <div className="flex flex-col gap-3 px-3">
-          <Link to={"/forgot-password"}>
-            <p className="underline text-blue-700 text-center cursor-pointer">
+
+        {/* Footer */}
+        <div className="px-6 pb-6 flex flex-col gap-3">
+          <Link to="/forgot-password">
+            <p className="text-sm text-slate-400 hover:text-white text-center transition cursor-pointer">
               Forgot password?
             </p>
           </Link>
-          <Link to={"/signup"}>
+
+          <Link to="/signup">
             <button
-              type="submit"
-              className="px-5 py-1 bg-green-500 font-bold text-white mb-3 cursor-pointer active:scale-90 transition-all w-full"
+              type="button"
+              className="w-full py-2.5 rounded-xl border border-white/10 text-white font-medium hover:bg-white/5 transition-all"
             >
               Create Account
             </button>

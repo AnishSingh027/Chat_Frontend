@@ -19,30 +19,50 @@ const ForgotPassword = () => {
   };
 
   return (
-    <div className="px-6 flex items-center justify-center h-[calc(100vh-100px)]">
-      <div className="w-72 rounded shadow-xl md:w-96">
-        <h1 className="bg-blue-400 font-bold text-white text-center text-xl py-2 mb-4">
-          Forgot Password
-        </h1>
-        <form className="py-2 px-4 flex flex-col gap-3">
-          <div className="items-start justify-between gap-2 flex flex-col md:flex-row md:items-center md:gap-3">
-            <label className="w-1/5">Username: </label>
+    <div className="min-h-[calc(100vh-80px)] flex items-center justify-center px-4 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+      <div className="w-full max-w-md rounded-2xl bg-slate-900/80 backdrop-blur-xl border border-white/10 shadow-2xl">
+        {/* Header */}
+        <div className="px-6 py-4 border-b border-white/10">
+          <h1 className="text-xl font-semibold text-white text-center tracking-wide">
+            Forgot Password
+          </h1>
+          <p className="text-sm text-slate-400 text-center mt-1">
+            Enter your email to receive OTP
+          </p>
+        </div>
+
+        {/* Form */}
+        <form
+          className="px-6 py-6 flex flex-col gap-5"
+          onSubmit={handleNavigate}
+        >
+          <div className="flex flex-col gap-1">
+            <label className="text-sm text-slate-400">Email</label>
             <input
               type="email"
               placeholder="Enter your email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="bg-gray-100 px-2 py-1 w-full rounded outline-none lg:w-4/5"
+              className="w-full px-3 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
             />
           </div>
+
           <button
             type="submit"
-            onClick={handleNavigate}
-            className="px-5 py-1 w-full bg-blue-400 font-bold text-white mt-3 cursor-pointer active:scale-90 transition-all"
+            className="w-full py-2.5 rounded-xl bg-gradient-to-r from-blue-500 to-indigo-600 text-white font-medium shadow-md hover:shadow-lg hover:scale-[1.02] active:scale-95 transition-all duration-200"
           >
             Send OTP
           </button>
         </form>
+
+        {/* Footer */}
+        <div className="px-6 pb-6 text-center">
+          <Link to="/login">
+            <p className="text-sm text-slate-400 hover:text-white transition cursor-pointer">
+              Back to Login
+            </p>
+          </Link>
+        </div>
       </div>
     </div>
   );
