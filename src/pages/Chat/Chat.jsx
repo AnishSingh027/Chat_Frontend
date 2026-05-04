@@ -12,6 +12,7 @@ const Chat = () => {
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
   const [targetUser, setTargetUser] = useState({});
+  const [isOnline, setIsOnline] = useState({});
 
   const handleSendMessage = () => {
     if (!newMessage.trim()) return;
@@ -26,6 +27,7 @@ const Chat = () => {
     setNewMessage("");
   };
 
+  // Fetch connection chat from DB
   const fetchConnectionChat = async () => {
     try {
       const chats = await api.get(`/chat/fetch-chat/${targetUserID}`);
@@ -61,7 +63,15 @@ const Chat = () => {
 
   useEffect(() => {
     socketRef.current = connectSocketToServer();
-    return () => socketRef.current.disconnect();
+    socketRef.current.emit("status", {
+      id: userData?._id,
+      status: "online",
+    });
+
+    return () => {
+      socketRef.current.off("status");
+      socketRef.current.disconnect();
+    };
   }, []);
 
   useEffect(() => {

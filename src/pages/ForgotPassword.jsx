@@ -14,7 +14,8 @@ const ForgotPassword = () => {
       alert(res?.data?.message);
       navigate("/update-password", { state: { email } });
     } catch (error) {
-      alert(error?.response?.data);
+      console.log("error", error);
+      alert(error?.response?.data?.message || error?.response?.data?.error || error.message);
     }
   };
 
