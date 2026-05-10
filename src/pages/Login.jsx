@@ -18,11 +18,16 @@ const Login = () => {
     try {
       const res = await api.post("/user/login", formData);
 
-      localStorage.setItem("isLoggedIn", true);
-      setIsUserLoggedIn("true");
-      alert(res?.data?.message);
+      if (res?.status == 200) {
+        localStorage.setItem("isLoggedIn", true);
+        setIsUserLoggedIn("true");
+      }
     } catch (error) {
-      alert(error?.response?.data?.error);
+      alert(
+        error?.response?.data?.message ||
+          error?.response?.data?.error ||
+          error.message,
+      );
     }
   };
 

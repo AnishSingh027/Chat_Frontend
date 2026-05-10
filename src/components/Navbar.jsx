@@ -2,11 +2,12 @@ import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import AuthContext from "../contexts/AuthContext";
 import api from "../config/axios";
-import { useEffect } from "react";
+import SocketContext from "../contexts/Socket";
 
 const Navbar = () => {
   const { isUserLoggedIn, setIsUserLoggedIn } = useContext(AuthContext);
   const [isOpen, setIsOpen] = useState(false);
+  const { socket } = useContext(SocketContext);
 
   // Logout User (logic unchanged)
   const logoutUser = async (e) => {
@@ -16,7 +17,12 @@ const Navbar = () => {
 
       if (res?.status == 200) {
         alert(res?.data?.message);
+        socket.emit("userOffline", {
+          userID: res?.data?.userID,
+          status: "offline",
+        });
         setIsUserLoggedIn("false");
+        navigate("/login");
       }
     } catch (error) {
       console.log(error);

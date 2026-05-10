@@ -1,9 +1,22 @@
+import { useContext } from "react";
+import OnlineUserContext from "../../contexts/OnlineUserContext.jsx";
+
 const UserCard = ({ user, button }) => {
   const { _id, firstName, lastName, age, gender, photoUrl } = user || {};
   const { isPresent, buttonFeatures } = button || {};
+  const { onlineUsers } = useContext(OnlineUserContext);
+
+  const isOnline = onlineUsers?.includes(_id);
 
   return (
     <div className="group relative w-72 rounded-2xl bg-slate-900/80 backdrop-blur-xl border border-white/10 shadow-xl hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 overflow-hidden">
+      {/* Online badge */}
+      {isOnline && (
+        <div
+          className="absolute top-4 right-4 w-3.5 h-3.5 bg-green-500 rounded-full border-2 border-slate-900 shadow-[0_0_8px_rgba(34,197,94,0.6)] z-10"
+          title="Online"
+        />
+      )}
       {/* Image */}
       <div className="w-full h-64 overflow-hidden">
         <img

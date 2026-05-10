@@ -14,6 +14,7 @@ import SentRequest from "./pages/SentRequest/SentRequest";
 import ReceivedRequest from "./pages/ReceivedRequest/ReceivedRequest.jsx";
 import ConnectionRequest from "./pages/ConnectionRequest/ConnectionRequest.jsx";
 import Chat from "./pages/Chat/Chat.jsx";
+import { OnlineUserProvider } from "./contexts/OnlineUserContext";
 
 const AppLayout = () => {
   return (
@@ -21,6 +22,20 @@ const AppLayout = () => {
       <Navbar />
       <Outlet />
     </>
+  );
+};
+
+const PrivateLayout = () => {
+  return (
+    <PrivateProtected>
+      <UserProvider>
+        <AllUserProvider>
+          <OnlineUserProvider>
+            <Outlet />
+          </OnlineUserProvider>
+        </AllUserProvider>
+      </UserProvider>
+    </PrivateProtected>
   );
 };
 
@@ -33,76 +48,34 @@ const router = createBrowserRouter([
     children: [
       // Private pages
       {
-        index: true,
-        element: (
-          <PrivateProtected>
-            <UserProvider>
-              <AllUserProvider>
-                <Home />
-              </AllUserProvider>
-            </UserProvider>
-          </PrivateProtected>
-        ),
+        element: <PrivateLayout />,
+        children: [
+          {
+            index: true,
+            element: <Home />,
+          },
+          {
+            path: "/profile",
+            element: <Profile />,
+          },
+          {
+            path: "/sent-request",
+            element: <SentRequest />,
+          },
+          {
+            path: "/received-request",
+            element: <ReceivedRequest />,
+          },
+          {
+            path: "/connections",
+            element: <ConnectionRequest />,
+          },
+          {
+            path: "/chat/:targetUserID",
+            element: <Chat />,
+          },
+        ],
       },
-      {
-        path: "/profile",
-        element: (
-          <PrivateProtected>
-            <UserProvider>
-              <Profile />
-            </UserProvider>
-          </PrivateProtected>
-        ),
-      },
-      {
-        path: "/sent-request",
-        element: (
-          <PrivateProtected>
-            <UserProvider>
-              <AllUserProvider>
-                <SentRequest />
-              </AllUserProvider>
-            </UserProvider>
-          </PrivateProtected>
-        ),
-      },
-      {
-        path: "/received-request",
-        element: (
-          <PrivateProtected>
-            <UserProvider>
-              <AllUserProvider>
-                <ReceivedRequest />
-              </AllUserProvider>
-            </UserProvider>
-          </PrivateProtected>
-        ),
-      },
-      {
-        path: "/connections",
-        element: (
-          <PrivateProtected>
-            <UserProvider>
-              <AllUserProvider>
-                <ConnectionRequest />
-              </AllUserProvider>
-            </UserProvider>
-          </PrivateProtected>
-        ),
-      },
-      {
-        path: "/chat/:targetUserID",
-        element: (
-          <PrivateProtected>
-            <UserProvider>
-              <AllUserProvider>
-                <Chat />
-              </AllUserProvider>
-            </UserProvider>
-          </PrivateProtected>
-        ),
-      },
-
       // Public pages
       {
         path: "/login",
