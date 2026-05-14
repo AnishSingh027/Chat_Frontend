@@ -40,6 +40,8 @@ const Chat = () => {
 
       setMessages(
         allMessages.map((chat) => ({
+          _id: chat?._id,
+          senderId: chat?.senderId?._id,
           firstName: chat?.senderId?.firstName,
           photoUrl: chat?.senderId?.photoUrl,
           text: chat?.content,
@@ -56,6 +58,15 @@ const Chat = () => {
         `/connection/targetUser-details/${targetUserID}`,
       );
       setTargetUser(res?.data?.user);
+    } catch (error) {
+      console.log(error?.response);
+    }
+  };
+
+  const handleDeleteMessage = async (messageID) => {
+    try {
+      await api.post("/chat/remove-chat", { messageID });
+      setMessages((prev) => prev.filter((msg) => msg._id !== messageID));
     } catch (error) {
       console.log(error?.response);
     }
@@ -106,8 +117,11 @@ const Chat = () => {
       targetUserID,
     });
 
-    socket.on("receiveMsg", ({ firstName, text, photoUrl }) => {
-      setMessages((prev) => [...prev, { firstName, text, photoUrl }]);
+    socket.on("receiveMsg", ({ _id, senderId, firstName, text, photoUrl }) => {
+      setMessages((prev) => [
+        ...prev,
+        { _id, senderId, firstName, text, photoUrl },
+      ]);
     });
 
     return () => {
@@ -151,7 +165,6 @@ const Chat = () => {
         <div className="flex-1 overflow-y-auto px-4 py-6 space-y-4">
           {messages.map((msg, index) => {
             const isOwn = msg.firstName === userData?.firstName;
-
             return (
               <div
                 key={index}
@@ -167,12 +180,21 @@ const Chat = () => {
                 )}
 
                 <div
-                  className={`max-w-[70%] px-4 py-2 rounded-2xl text-sm md:text-base shadow-md ${
+                  className={`relative group max-w-[70%] px-4 py-2 rounded-2xl text-sm md:text-base shadow-md ${
                     isOwn
                       ? "bg-gradient-to-r from-blue-500 to-indigo-600 text-white rounded-br-sm"
                       : "bg-white/5 text-white rounded-bl-sm border border-white/10"
                   }`}
                 >
+                  {isOwn && (
+                    <button
+                      onClick={() => handleDeleteMessage(msg?._id)}
+                      className="flex md:hidden md:group-hover:flex items-center justify-center w-5 h-5 bg-red-500 hover:bg-red-600 text-white rounded-full absolute -top-2 -right-2 z-10 shadow-md transition-all duration-200"
+                      title="Delete message"
+                    >
+                      ×
+                    </button>
+                  )}
                   <p className="text-xs text-white mb-1">{msg?.firstName}</p>
                   {msg.text}
                 </div>
