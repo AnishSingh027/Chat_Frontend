@@ -10,7 +10,7 @@ export const AllUserProvider = ({ children }) => {
 
   const fetchAllUsers = async () => {
     try {
-      const res = await api.get("/connection/all-user");
+      const res = await api.get("/connection/all-connections");
       setAllUsers(res?.data?.users);
     } catch (error) {
       console.log(error?.response?.data?.error);

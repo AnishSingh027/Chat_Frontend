@@ -15,6 +15,9 @@ import ReceivedRequest from "./pages/ReceivedRequest/ReceivedRequest.jsx";
 import ConnectionRequest from "./pages/ConnectionRequest/ConnectionRequest.jsx";
 import Chat from "./pages/Chat/Chat.jsx";
 import { OnlineUserProvider } from "./contexts/OnlineUserContext";
+import GroupChat from "./pages/GroupChat/GroupChat.jsx";
+import CreateGroup from "./pages/GroupChat/CreateGroup.jsx";
+import GroupDetails from "./pages/GroupChat/GroupDetails.jsx";
 
 const AppLayout = () => {
   return (
@@ -74,6 +77,18 @@ const router = createBrowserRouter([
             path: "/chat/:targetUserID",
             element: <Chat />,
           },
+          {
+            path: "/create-group",
+            element: <CreateGroup />
+          },
+          {
+            path: "/group-details/:chatId",
+            element: <GroupDetails />
+          },
+          {
+            path: "/group-chat/:chatId",
+            element: <GroupChat />
+          }
         ],
       },
       // Public pages
